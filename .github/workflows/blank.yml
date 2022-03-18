@@ -9,8 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: test
-      shell: bash {0}
+      shell: bash
       run: |
+        set +e
         date
         aaa # 失敗させる
         date # ここまで到達させたい   

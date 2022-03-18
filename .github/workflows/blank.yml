@@ -1,0 +1,16 @@
+name: test
+on:
+  push:
+
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: test
+      shell: bash {0}
+      run: |
+        date
+        aaa # 失敗させる
+        date # ここまで到達させたい   

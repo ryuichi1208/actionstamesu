@@ -9,7 +9,7 @@ jobs:
       - name: test1-1
         run:
           echo "aaa-1"
-          wget wget https://github.com/soh335/shukujitsu/releases/download/v0.0.7/shukujitsu_0.0.7_linux_amd64.tar.gz
+          wget https://github.com/soh335/shukujitsu/releases/download/v0.0.7/shukujitsu_0.0.7_linux_amd64.tar.gz
           tar -xvf shukujitsu_0.0.7_linux_amd64.tar.gz
           ./shukujitsu
       - name: test1-2

@@ -5,6 +5,8 @@ on:
 jobs:
   test1:
     runs-on: ubuntu-latest
+    outputs:
+      is_holiday: ${{ steps.holiday-check.outputs.is_holiday }}
     steps:
       - name: holiday-check
         id: holiday-check

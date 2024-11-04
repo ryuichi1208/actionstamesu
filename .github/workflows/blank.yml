@@ -12,10 +12,10 @@ jobs:
           wget https://github.com/soh335/shukujitsu/releases/download/v0.0.7/shukujitsu_0.0.7_linux_amd64.tar.gz
           tar -xvf shukujitsu_0.0.7_linux_amd64.tar.gz
           ./shukujitsu
-          if [[ $? -q 0 ]]; then
-            echo "is_holiday=true" >> "$GITHUB_ENV"
+          if [[ $? -eq 0 ]]; then
+            echo "::set-output name=is_holiday::true"
           else
-            echo "is_holiday=false" >> "$GITHUB_ENV"
+            echo "::set-output name=is_holiday::false"
           fi
 
   test2:

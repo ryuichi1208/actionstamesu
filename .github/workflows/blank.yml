@@ -3,14 +3,19 @@ on:
   push:
 
 jobs:
-
-  build:
-    name: Build
+  test1:
     runs-on: ubuntu-latest
     steps:
-    - name: test
-      shell: bash
-      run: |
-        date
-        aaa # 失敗させる
-        date # ここまで到達させたい   
+      - name: test1-1
+        run:
+          echo "aaa-1"
+      - name: test1-2
+        run:
+          echo "aaa-2"
+
+  test2:
+    runs-on: ubuntu-latest
+    steps:
+      - name: test1
+        run:
+          echo "bbb"

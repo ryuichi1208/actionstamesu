@@ -6,18 +6,21 @@ jobs:
   test1:
     runs-on: ubuntu-latest
     steps:
-      - name: test1-1
+      - name: holiday-check
+        id: holiday-check
         run: |
-          echo "aaa-1"
           wget https://github.com/soh335/shukujitsu/releases/download/v0.0.7/shukujitsu_0.0.7_linux_amd64.tar.gz
           tar -xvf shukujitsu_0.0.7_linux_amd64.tar.gz
           ./shukujitsu
-      - name: test1-2
-        run: |
-          echo "aaa-2"
+          if [[ $? -q 0 ]]; then
+            echo "is_holiday=true" >> "$GITHUB_ENV"
+          else
+            echo "is_holiday=false" >> "$GITHUB_ENV"
+          fi
 
   test2:
     runs-on: ubuntu-latest
+    if: env.is_holiday == 'false'
     steps:
       - name: test1
         run:

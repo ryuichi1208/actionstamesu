@@ -22,8 +22,9 @@ jobs:
 
   test2:
     runs-on: ubuntu-latest
-    if: env.is_holiday == 'false'
+    needs: test1
+    if: needs.test1.outputs.is_holiday == 'false'
     steps:
       - name: test1
-        run:
+        run: |
           echo "bbb"

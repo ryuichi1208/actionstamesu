@@ -9,22 +9,21 @@ on:
       - opened
 
 jobs:
-  assign_pull_request:
-    name: Assign PR
+  assign:
+    name: assign
     runs-on: ubuntu-latest
-    if: github.actor != 'renovate[bot]'
     steps:
-      - name: Assign Pull Request
-        run: gh pr edit ${{ github.event.number }} --add-assignee ${{ github.actor }} --repo ${{ github.repository }}
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: PR
+        if: ${{ github.event_name == 'pull_request' }}
+        run: gh pr edit ${{ github.event.pull_request.number }} --add-assignee ${{ github.actor }} --repo ${{ github.repository }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  assign_issue:
-    name: Assign Issue
-    runs-on: ubuntu-latest
-    if: github.actor != 'renovate[bot]'
-    steps:
-      - name: Assign Issue
+      - name: Issue
+        if: ${{ github.event_name == 'issues' }}
         run: gh issue edit ${{ github.event.issue.number }} --add-assignee ${{ github.actor }} --repo ${{ github.repository }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

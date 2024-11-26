@@ -1,30 +1,30 @@
-name: test
+name: Assign
+
 on:
-  push:
+  pull_request:
+    types:
+      - opened
+  issues:
+    types:
+      - opened
 
 jobs:
-  test1:
+  assign_pull_request:
+    name: Assign PR
     runs-on: ubuntu-latest
-    outputs:
-      is_holiday: ${{ steps.holiday-check.outputs.is_holiday }}
+    if: github.actor != 'renovate[bot]'
     steps:
-      - name: holiday-check
-        id: holiday-check
-        run: |
-          wget https://github.com/soh335/shukujitsu/releases/download/v0.0.7/shukujitsu_0.0.7_linux_amd64.tar.gz
-          tar -xvf shukujitsu_0.0.7_linux_amd64.tar.gz
-          ./shukujitsu
-          if [[ $? -eq 0 ]]; then
-            echo "::set-output name=is_holiday::true"
-          else
-            echo "::set-output name=is_holiday::false"
-          fi
+      - name: Assign Pull Request
+        run: gh pr edit ${{ github.event.number }} --add-assignee ${{ github.actor }} --repo ${{ github.repository }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  test2:
+  assign_issue:
+    name: Assign Issue
     runs-on: ubuntu-latest
-    needs: test1
-    if: needs.test1.outputs.is_holiday == 'false'
+    if: github.actor != 'renovate[bot]'
     steps:
-      - name: test1
-        run: |
-          echo "bbb"
+      - name: Assign Issue
+        run: gh issue edit ${{ github.event.issue.number }} --add-assignee ${{ github.actor }} --repo ${{ github.repository }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

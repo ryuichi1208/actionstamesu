@@ -1,3 +1,4 @@
+# cf. https://blog.studysapuri.jp/entry/2023/11/13/android-gha-recipes
 name: Assign
 
 on:
@@ -10,20 +11,18 @@ on:
 
 jobs:
   assign:
-    name: assign
+    name: Assign
     runs-on: ubuntu-latest
+    if: github.actor != 'renovate[bot]'
     steps:
-      - name: checkout
-        uses: actions/checkout@v3
-
       - name: PR
         if: ${{ github.event_name == 'pull_request' }}
         run: gh pr edit ${{ github.event.pull_request.number }} --add-assignee ${{ github.actor }} --repo ${{ github.repository }}
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
 
       - name: Issue
         if: ${{ github.event_name == 'issues' }}
         run: gh issue edit ${{ github.event.issue.number }} --add-assignee ${{ github.actor }} --repo ${{ github.repository }}
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
